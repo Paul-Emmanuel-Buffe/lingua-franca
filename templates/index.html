@@ -2,37 +2,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mon Projet</title>
-    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 </head>
 <body>
     <div class="translate-app">
         <header class="app-header">
-            <h1>Traducteur Français-Anglais</h1>
+            <h1>Traducteur</h1>
         </header>
+        <form method="POST" action="/">
+            <main class="translation-boxes">
 
-        <main class="translation-boxes">
-            <!-- Zone française -->
-            <div class="text-box source-box">
-                <div class="language-label">Français</div>
-                <textarea class="text-input" id="french-text" placeholder="Saisissez votre texte ici..."></textarea>
-                <button class="clear-btn" type="button">Effacer</button>
-            </div>
+                <!-- Zone source -->
+                <div class="text-box source-box">
+                    <div class="language-label">Texte à traduire</div>
+                    <textarea
+                            class="text-input"
+                            name="text_to_translate"
+                            placeholder="Entrez votre texte"
+                        >{{ text_to_translate or '' }}</textarea>
 
-            <!-- Bouton de traduction -->
-            <div class="translate-btn-container">
-                <button class="translate-btn" type="submit">Traduire →</button>
-            </div>
+                    <button class="clear-btn" type="button">Effacer</button>
+                </div>
 
-            <!-- Zone anglaise -->
-            <div class="text-box result-box">
-                <div class="language-label">Anglais</div>
-                <textarea class="text-output" id="english-text" readonly></textarea>
-                <button class="copy-btn" type="button">Copier</button>
-            </div>
-        </main>
+                <!-- Zone de bouton -->
+                <div class="translate-btn-container">
+                    <button class="translate-btn" type="submit">Traduire →</button>
+                </div>
+
+                <!-- Zone anglaise -->
+                <div class="text-box result-box">
+                    <div class="language-label">Traduction</div>
+                    <select name="target_lang">
+                        <option value="EN" {% if target_lang == 'EN' %}selected{% endif %}>Anglais</option>
+                        <option value="FR" {% if target_lang == 'FR' %}selected{% endif %}>Français</option>
+                        <option value="ES" {% if target_lang == 'ES' %}selected{% endif %}>Espagnol</option>
+                        <option value="RU" {% if target_lang == 'RU' %}selected{% endif %}>Russe</option>
+                        <option value="ZH" {% if target_lang == 'ZH' %}selected{% endif %}>Mandarin</option>
+                    </select>
+
+                    <textarea class="text-output" readonly>{{ translation or '' }}</textarea>
+                    <button class="copy-btn" type="button">Copier</button>
+                </div>
+
+            </main>
+        </form>
     </div>
 </body>
 </html>
