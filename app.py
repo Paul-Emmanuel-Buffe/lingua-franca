@@ -19,10 +19,10 @@ class TranslationService:
     def translate(self, text, target_lang):
         # Translates text via DeepL API
         if not text:
-            return "", "⚠️ Please enter text to translate."
+            return "", "Please enter text to translate."
             
         if not self.is_valid_language(target_lang):
-            return "", "⚠️ Target language not supported."
+            return "",  "Target language not supported."
         
         try:
             response = requests.post(

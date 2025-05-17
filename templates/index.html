@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mon Projet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 </head>
 <body>
@@ -13,7 +15,6 @@
         </header>
         <form method="POST" action="/" id="translateForm">
             <main class="translation-boxes">
-
                 <!-- Zone source -->
                 <div class="text-box source-box">
                     <div class="language-label">Texte à traduire</div>
@@ -23,18 +24,11 @@
                             id="textToTranslate"
                             placeholder="Entrez votre texte"
                         >{{ text_to_translate or '' }}</textarea>
-
                     <button class="clear-btn" type="button" id="clearBtn">Effacer</button>
                 </div>
 
-                <!-- Zone de bouton -->
-                <div class="translate-btn-container">
-                    <button class="translate-btn" type="submit">Traduire →</button>
-                </div>
-
-                <!-- Zone anglaise -->
-                <div class="text-box result-box">
-                    <div class="language-label">Traduction</div>
+                <!-- Sélecteur de langue -->
+                <div class="language-selector">
                     <select name="target_lang" id="targetLang">
                         <option value="EN" {% if target_lang == 'EN' %}selected{% endif %}>Anglais</option>
                         <option value="FR" {% if target_lang == 'FR' %}selected{% endif %}>Français</option>
@@ -42,99 +36,93 @@
                         <option value="RU" {% if target_lang == 'RU' %}selected{% endif %}>Russe</option>
                         <option value="ZH" {% if target_lang == 'ZH' %}selected{% endif %}>Mandarin</option>
                     </select>
+                </div>
 
+                <!-- Zone de traduction -->
+                <div class="text-box result-box">
+                    <div class="language-label">Traduction</div>
                     <textarea class="text-output" id="translationOutput" readonly>{{ translation or '' }}</textarea>
                     <button class="copy-btn" type="button" id="copyBtn">Copier</button>
                 </div>
-
             </main>
         </form>
     </div>
 
     <script>
-        // Variables pour gérer le délai entre les frappes
-        let typingTimer;
-        const doneTypingInterval = 500; // en ms - délai avant de traduire
-        
-        // Éléments du DOM
-        const textInput = document.getElementById('textToTranslate');
-        const translationOutput = document.getElementById('translationOutput');
-        const targetLangSelect = document.getElementById('targetLang');
-        const clearBtn = document.getElementById('clearBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const form = document.getElementById('translateForm');
-        
-        // Fonction pour effectuer la traduction
-        function translateText() {
-            const textToTranslate = textInput.value.trim();
-            const targetLang = targetLangSelect.value;
-            
-            // Ne pas traduire si le texte est vide
-            if (textToTranslate === '') {
-                translationOutput.value = '';
-                return;
-            }
-            
-            // Afficher un message de chargement
-            translationOutput.value = 'Traduction en cours...';
-            
-            // Créer une requête AJAX
-            fetch('/translate_ajax', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    'text_to_translate': textToTranslate,
-                    'target_lang': targetLang
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                translationOutput.value = data.translation;
-            })
-            .catch(error => {
-                translationOutput.value = "Erreur: Impossible de traduire le texte.";
-                console.error('Erreur:', error);
-            });
-        }
-        
-        // Événements pour la traduction en temps réel
-        textInput.addEventListener('keyup', function() {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(translateText, doneTypingInterval);
-        });
-        
-        textInput.addEventListener('keydown', function() {
-            clearTimeout(typingTimer);
-        });
-        
-        // Événement pour traduire quand la langue cible change
-        targetLangSelect.addEventListener('change', translateText);
-        
-        // Événement pour le bouton Effacer
-        clearBtn.addEventListener('click', function() {
-            textInput.value = '';
+    // Variables pour gérer le délai entre les frappes
+    let typingTimer;
+    const doneTypingInterval = 500; // en ms - délai avant de traduire
+
+    // Éléments du DOM
+    const textInput = document.getElementById('textToTranslate');
+    const translationOutput = document.getElementById('translationOutput');
+    const targetLangSelect = document.getElementById('targetLang');
+    const clearBtn = document.getElementById('clearBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    // Fonction pour effectuer la traduction
+    function translateText() {
+        const textToTranslate = textInput.value.trim();
+        const targetLang = targetLangSelect.value;
+
+        // Ne pas traduire si le texte est vide
+        if (textToTranslate === '') {
             translationOutput.value = '';
+            return;
+        }
+
+        // Afficher un message de chargement
+        translationOutput.value = 'Traduction en cours...';
+
+        // Créer une requête AJAX
+        fetch('/translate_ajax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'text_to_translate': textToTranslate,
+                'target_lang': targetLang
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            translationOutput.value = data.translation;
+        })
+        .catch(error => {
+            translationOutput.value = "Erreur: Impossible de traduire le texte.";
+            console.error('Erreur:', error);
         });
-        
-        // Événement pour le bouton Copier
-        copyBtn.addEventListener('click', function() {
-            translationOutput.select();
-            document.execCommand('copy');
-            // Effet visuel pour confirmer la copie
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = 'Copié!';
-            setTimeout(() => {
-                copyBtn.textContent = originalText;
-            }, 1000);
-        });
-        
-        // Empêcher la soumission normale du formulaire
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            translateText();
-        });
-    </script>
-</body>
-</html>
+    }
+
+    // Événements pour la traduction en temps réel
+    textInput.addEventListener('keyup', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(translateText, doneTypingInterval);
+    });
+
+    textInput.addEventListener('keydown', function() {
+        clearTimeout(typingTimer);
+    });
+
+    // Événement pour traduire quand la langue cible change
+    targetLangSelect.addEventListener('change', translateText);
+
+    // Événement pour le bouton Effacer
+    clearBtn.addEventListener('click', function() {
+        textInput.value = '';
+        translationOutput.value = '';
+    });
+
+    // Événement pour le bouton Copier
+    copyBtn.addEventListener('click', function() {
+        translationOutput.select();
+        document.execCommand('copy');
+        // Effet visuel pour confirmer la copie
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copié!';
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+        }, 1000);
+    });
+</script>
