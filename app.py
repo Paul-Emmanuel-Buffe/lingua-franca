@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import requests
 import os
 from dotenv import load_dotenv
@@ -48,6 +48,34 @@ def index():
         text_to_translate=text_to_translate,
         target_lang=target_lang,
     )
+
+@app.route("/translate_ajax", methods=["POST"])
+def translate_ajax():
+    text_to_translate = request.form.get("text_to_translate", "").strip()
+    target_lang = request.form.get("target_lang", "EN").upper()
+    
+    if not text_to_translate:
+        return jsonify({"translation": ""})
+    
+    if target_lang not in valid_langs:
+        return jsonify({"translation": "⚠️ Langue cible non supportée."})
+    
+    try:
+        response = requests.post(
+            DEEPL_API_URL,
+            data={
+                "auth_key": DEEPL_API_KEY,
+                "text": text_to_translate,
+                "target_lang": target_lang,
+            },
+            timeout=10
+        )
+        response.raise_for_status()
+        result = response.json()
+        translation = result["translations"][0]["text"]
+        return jsonify({"translation": translation})
+    except Exception as e:
+        return jsonify({"translation": f"Erreur lors de la traduction : {str(e)}"})
 
 
 if __name__ == "__main__":
