@@ -43,59 +43,31 @@ class TranslationService:
 
 
 class TranslatorApp:
-    # Main translator application
-    
     def __init__(self):
         self.app = Flask(__name__)
-        self.setup_config()
-        self.setup_routes()
+        load_dotenv()
         self.translation_service = TranslationService(
             api_key=os.getenv("DEEPL_API_KEY"),
             api_url="https://api-free.deepl.com/v2/translate"
         )
-    
-    def setup_config(self):
-        # Configures Flask app and loads env vars
-        load_dotenv()
-    
-    def setup_routes(self):
-        # Sets up application routes
-        self.app.route("/")(self.index)
-        self.app.route("/translate_ajax", methods=["POST"])(self.translate_ajax)
-    
-    def index(self):
-        # Main route with translation form
-        translation = ""
-        text_to_translate = ""
-        target_lang = "EN"  # default value
+        self.setup_routes()
 
-        if request.method == "POST":
+    def setup_routes(self):
+        @self.app.route("/")
+        def index():
+            return render_template("index.html")  # Template seul sans logique
+        
+        @self.app.route("/translate_ajax", methods=["POST"])
+        def translate_ajax():
             text_to_translate = request.form.get("text_to_translate", "").strip()
             target_lang = request.form.get("target_lang", "EN").upper()
-            
             translation, error = self.translation_service.translate(text_to_translate, target_lang)
-            if error:
-                translation = error
+            return jsonify({
+                "success": error is None,
+                "translation": translation if not error else error
+            })
 
-        return render_template(
-            "index.html",
-            translation=translation,
-            text_to_translate=text_to_translate,
-            target_lang=target_lang,
-        )
-    
-    def translate_ajax(self):
-        # AJAX translation endpoint
-        text_to_translate = request.form.get("text_to_translate", "").strip()
-        target_lang = request.form.get("target_lang", "EN").upper()
-        
-        translation, error = self.translation_service.translate(text_to_translate, target_lang)
-        if error:
-            return jsonify({"translation": error})
-        return jsonify({"translation": translation})
-    
     def run(self, debug=True):
-        # Runs the Flask app
         self.app.run(debug=debug)
 
 
