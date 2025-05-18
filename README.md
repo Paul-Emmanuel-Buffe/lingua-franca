@@ -4,7 +4,7 @@
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-![Application Preview](static/img/background_lingua.jpg)
+![Application Preview](static/img/result.png)
 
 ## Project Description
 
