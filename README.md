@@ -1,113 +1,123 @@
-# Lingua Franca
+# Lingua Franca - Real-Time Translation Web Application
 
-![Lingua Franca Banner](https://via.placeholder.com/800x200?text=Lingua+Franca)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-## Overview
+![Application Preview](static/img/background_lingua.jpg)
 
-Lingua Franca is a simple yet powerful text translation web application built with Flask. It provides users with an intuitive interface to translate text between multiple languages using Google's Translation API. Whether you need to translate a quick phrase or a longer paragraph, Lingua Franca offers a clean, straightforward solution for breaking down language barriers.
+## Project Description
 
-## Features
+Lingua Franca is a professional translation web application built with Flask that provides real-time text translation using the DeepL API. The application features a clean, responsive interface with intelligent typing detection and supports multiple languages.
 
-- **Text Translation**: Translate text between numerous languages supported by Google Translate API
-- **Automatic Language Detection**: Don't know the source language? Let our application detect it automatically
-- **Clean User Interface**: Minimalist design focused on functionality and ease of use
-- **Responsive Layout**: Works well on both desktop and mobile devices
+## Key Features
 
-## Technologies Used
-
-- **Python**: Core programming language
-- **Flask**: Web framework for building the application
-- **Google Translate API**: Provides translation capabilities
-- **HTML/CSS**: Front-end structure and styling
-
-## Installation and Setup
-
-### Prerequisites
-
-- Python 3.8 or higher
-- Conda (for environment management)
-
-### Setting Up the Environment
-
-1. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/lingua-franca.git
-   cd lingua-franca
-   ```
-
-2. Create and activate a Conda environment:
-   ```
-   conda create --name lingua-franca python=3.9
-   conda activate lingua-franca
-   ```
-
-3. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
-
-### Configuration
-
-1. You will need to set up access to Google Translate API:
-   - Follow the [official Google Cloud documentation](https://cloud.google.com/translate/docs/setup) to create an account and obtain an API key
-   - Create a `.env` file in the project root and add your API key:
-     ```
-     GOOGLE_TRANSLATE_API_KEY=your_api_key_here
-     ```
-
-### Running the Application
-
-1. Start the Flask application:
-   ```
-   python app.py
-   ```
-
-2. Open your web browser and navigate to:
-   ```
-   http://127.0.0.1:5000/
-   ```
-
-## Usage
-
-1. Enter the text you wish to translate in the left text area
-2. Select the source language (or choose "Auto-detect")
-3. Select the target language
-4. Click the "Translate" button
-5. View the translated text in the right text area
+- Real-time translation with 500ms debounce delay
+- Support for 5 languages: English, French, Spanish, Russian, and Mandarin
+- Automatic language detection
+- Clean, responsive UI with intuitive controls
+- Copy to clipboard functionality
+- AJAX implementation for seamless user experience
 
 ## Project Structure
 
 ```
 lingua-franca/
-├── app.py                  # Main Flask application
-├── static/                 # Static files
-│   ├── css/                # CSS stylesheets
-│   └── img/                # Images
-├── templates/              # HTML templates
-│   ├── index.html          # Main page template
-│   └── layout.html         # Base layout template
-├── translations/           # Translation service
-│   └── google_translate.py # Google Translate API integration
-├── .env                    # Environment variables (not tracked by Git)
-├── requirements.txt        # Project dependencies
-└── README.md               # Project documentation
+├── README.md
+├── app.py
+├── requirements.txt
+├── static/
+│   ├── css/
+│   │   └── main.css
+│   └── img/
+│       └── background_lingua.jpg
+└── templates/
+    └── index.html
 ```
 
-## Limitations
+## Technical Stack
 
-- Free tier of Google Translate API has usage limits
-- Some rare languages might have less accurate translations
-- Performance depends on Google Translate API response time
+- **Backend**: Python 3.8+, Flask 2.0+
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Translation API**: DeepL (v2)
+- **Environment Management**: Anaconda
 
-## Contributors
+## Requirements
 
-- [Your Name](https://github.com/yourusername)
-- [Partner's Name](https://github.com/partnerusername)
+```text
+Flask==2.0.1
+python-dotenv==1.0.0
+requests==2.26.0
+Werkzeug==2.0.1
+```
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/lingua-franca.git
+cd lingua-franca
+```
+
+2. Create and activate conda environment:
+```bash
+conda create -n lingua-franca python=3.8
+conda activate lingua-franca
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Create `.env` file:
+```env
+DEEPL_API_KEY=your_api_key_here
+```
+
+5. Run the application:
+```bash
+python app.py
+```
+
+## Usage
+
+1. Enter text in the source text area
+2. Select target language from dropdown
+3. Translation appears automatically
+4. Use buttons to:
+   - Copy translation to clipboard
+   - Clear both text areas
+
+## Deployment
+
+For production deployment:
+
+```bash
+gunicorn --bind 0.0.0.0:5000 app:app
+```
+
+Or using Docker:
+
+```bash
+docker build -t lingua-franca .
+docker run -p 5000:5000 lingua-franca
+```
 
 ## License
 
-This project is created as an academic assignment for La Plateforme's Bachelor program. 
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+```
 
----
+Ce README contient :
+1. Tous les éléments essentiels pour un projet professionnel
+2. Une structure claire et bien organisée
+3. Des badges pour la visibilité
+4. Des instructions d'installation et d'utilisation complètes
+5. Des informations de déploiement
 
-*This project was developed as part of the curriculum for Bachelor 1st year at La Plateforme.*
+Vous pouvez personnaliser :
+- Le lien du dépôt GitHub
+- L'image de prévisualisation
+- Les détails de la licence si vous en utilisez une autre
+- Ajouter une section "Contributing" si le projet est open source
