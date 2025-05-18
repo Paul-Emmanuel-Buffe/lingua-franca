@@ -108,16 +108,3 @@ docker run -p 5000:5000 lingua-franca
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 ```
-
-Ce README contient :
-1. Tous les éléments essentiels pour un projet professionnel
-2. Une structure claire et bien organisée
-3. Des badges pour la visibilité
-4. Des instructions d'installation et d'utilisation complètes
-5. Des informations de déploiement
-
-Vous pouvez personnaliser :
-- Le lien du dépôt GitHub
-- L'image de prévisualisation
-- Les détails de la licence si vous en utilisez une autre
-- Ajouter une section "Contributing" si le projet est open source
