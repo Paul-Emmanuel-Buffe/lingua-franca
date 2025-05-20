@@ -101,8 +101,8 @@ lingua-franca/
 
 ## Contributors
 
-- [Your Name](https://github.com/yourusername)
-- [Partner's Name](https://github.com/partnerusername)
+- [Paul-Emmanuel Buffe](https://github.com/Paul-Emmanuel-Buffe)
+- [Khady Ndiaye](https://github.com/khady-ndiaye)
 
 ## License
 
