@@ -20,7 +20,7 @@ Lingua Franca is a professional translation web application built with Flask tha
 
 ## Project Structure
 
-``
+```
 lingua-franca/
 ├── README.md
 ├── app.py
