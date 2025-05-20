@@ -103,15 +103,3 @@ docker build -t lingua-franca .
 docker run -p 5000:5000 lingua-franca
 ```
 
-## License
-
-<<<<<<< HEAD
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-```
-=======
-This project is created as an academic assignment for La Plateforme's Bachelor program. 
-
----
-
-*This project was developed as part of the curriculum for Bachelor 1st year at La Plateforme.*
->>>>>>> origin/develop
