@@ -87,19 +87,5 @@ python app.py
 4. Use buttons to:
    - Copy translation to clipboard
    - Clear both text areas
-
-## Deployment
-
-For production deployment:
-
-```bash
-gunicorn --bind 0.0.0.0:5000 app:app
-```
-
-Or using Docker:
-
-```bash
-docker build -t lingua-franca .
-docker run -p 5000:5000 lingua-franca
 ```
 
