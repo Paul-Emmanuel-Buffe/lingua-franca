@@ -1,6 +1,5 @@
 # Lingua Franca - Real-Time Translation Web Application
 
-<<<<<<< HEAD
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
