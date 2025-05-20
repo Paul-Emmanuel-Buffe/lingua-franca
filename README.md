@@ -1,10 +1,10 @@
 # Lingua Franca - Real-Time Translation Web Application
 
-<<<<<<< HEAD
+
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-green)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-=======
+
 ![Application Preview](static/img/result.png)
 
 Lingua Franca is a professional translation web application built with Flask that provides real-time text translation using the DeepL API. The application features a clean, responsive interface with intelligent typing detection and supports multiple languages.
