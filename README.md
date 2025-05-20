@@ -5,9 +5,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 =======
 ![Application Preview](static/img/result.png)
->>>>>>> origin/develop
-
-![Application Preview](static/img/result.png)
 
 ## Project Description
 
