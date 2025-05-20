@@ -1,7 +1,6 @@
 # Lingua Franca
 
-![Lingua Franca Banner](https://via.placeholder.com/800x200?text=Lingua+Franca)
-
+<img src="/static/img/result.png" alt="Lingua Franca Banner">
 ## Overview
 
 Lingua Franca is a simple yet powerful text translation web application built with Flask. It provides users with an intuitive interface to translate text between multiple languages using Google's Translation API. Whether you need to translate a quick phrase or a longer paragraph, Lingua Franca offers a clean, straightforward solution for breaking down language barriers.
