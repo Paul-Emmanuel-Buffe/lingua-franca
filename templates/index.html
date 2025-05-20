@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page metadata -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mon Projet</title>
+    
+    <!-- Import Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    
+    <!-- Load custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+</head>
+<body>
+    <div class="translate-app">
+        <!-- Page header -->
+        <header class="app-header">
+            <h1>Traducteur</h1>
+        </header>
+
+        <div id="translateContainer">
+            <main class="translation-boxes">
+                
+                <!-- Text input area (source) -->
+                <div class="text-box source-box">
+                    <div class="language-label">Texte à traduire</div>
+                    <textarea
+                        class="text-input"
+                        name="text_to_translate"
+                        id="textToTranslate"
+                        placeholder="Entrez votre texte"
+                    >{{ text_to_translate or '' }}</textarea>
+                    <button class="clear-btn" type="button" id="clearBtn">Effacer</button>
+                </div>
+
+                <!-- Language selector dropdown -->
+                <div class="language-selector">
+                    <select name="target_lang" id="targetLang">
+                        <option value="EN" {% if target_lang == 'EN' %}selected{% endif %}>Anglais</option>
+                        <option value="FR" {% if target_lang == 'FR' %}selected{% endif %}>Français</option>
+                        <option value="ES" {% if target_lang == 'ES' %}selected{% endif %}>Espagnol</option>
+                        <option value="RU" {% if target_lang == 'RU' %}selected{% endif %}>Russe</option>
+                        <option value="ZH" {% if target_lang == 'ZH' %}selected{% endif %}>Mandarin</option>
+                    </select>
+                </div>
+
+                <!-- Output area (translated text) -->
+                <div class="text-box result-box">
+                    <div class="language-label">Traduction</div>
+                    <textarea class="text-output" id="translationOutput" readonly>{{ translation or '' }}</textarea>
+                    <button class="copy-btn" type="button" id="copyBtn">Copier</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+    // Delay timer to avoid sending request on every keystroke
+    let typingTimer;
+    const doneTypingInterval = 500; // in ms - wait time after user stops typing
+
+    // DOM element references
+    const textInput = document.getElementById('textToTranslate');
+    const translationOutput = document.getElementById('translationOutput');
+    const targetLangSelect = document.getElementById('targetLang');
+    const clearBtn = document.getElementById('clearBtn');
+    const copyBtn = document.getElementById('copyBtn');
+
+    // Function to send AJAX request and display translation
+    function translateText() {
+        const textToTranslate = textInput.value.trim();
+        const targetLang = targetLangSelect.value;
+
+        // Don't translate if input is empty
+        if (textToTranslate === '') {
+            translationOutput.value = '';
+            return;
+        }
+
+        // Show loading message
+        translationOutput.value = 'Translating...';
+
+        // AJAX request to Flask backend
+        fetch('/translate_ajax', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'text_to_translate': textToTranslate,
+                'target_lang': targetLang
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            translationOutput.value = data.translation;
+        })
+        .catch(error => {
+            translationOutput.value = "Error: Unable to translate.";
+            console.error('Error:', error);
+        });
+    }
+
+    // Detect when user stops typing, then translate
+    textInput.addEventListener('keyup', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(translateText, doneTypingInterval);
+    });
+
+    // Clear timer while typing
+    textInput.addEventListener('keydown', function() {
+        clearTimeout(typingTimer);
+    });
+
+    // Trigger translation when target language changes
+    targetLangSelect.addEventListener('change', translateText);
+
+    // Clear both input and output when "Effacer" is clicked
+    clearBtn.addEventListener('click', function() {
+        textInput.value = '';
+        translationOutput.value = '';
+    });
+
+    // Copy translated text to clipboard
+    copyBtn.addEventListener('click', function() {
+        translationOutput.select();
+        document.execCommand('copy');
+        
+        // Temporary visual feedback
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+        }, 1000);
+    });
+    </script>
+</body>
+</html>
