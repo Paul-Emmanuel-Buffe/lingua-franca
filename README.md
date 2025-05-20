@@ -1,6 +1,6 @@
 # Lingua Franca
 
-![Lingua Franca Banner](https://via.placeholder.com/800x200?text=Lingua+Franca)
+![Application Preview](static/img/result.png)
 
 ## Overview
 
